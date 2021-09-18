@@ -1,0 +1,105 @@
+.testGeneratorView {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.testGeneratorView h1 {
+  text-align: center;
+}
+
+.testGeneratorView .generatorDescription {
+  font-weight: 600;
+}
+
+.testGeneratorView .generatorWorkspace {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.generatorWorkspace > div {
+  border-radius: 10px;
+  width: 100%;
+  height: 500px;
+  margin: 20px 5px;
+  background-color: #13131320;
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 5px;
+  border: solid 1px #cccccc11;
+}
+
+.generatorInputPane .inputPaneHeader, .outputPaneHeader {
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 10px;
+}
+
+.outputPaneHeader {
+  justify-content: space-between;
+}
+
+.outputPaneHeader span {
+  font-weight: 600;
+}
+
+.generatorInputPane .inputPaneHeader .textInput {
+  resize: none;
+  outline: none;
+  padding: 10px;
+  padding-left: 5px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #fcfcfc31;
+  margin: 2px 0;
+  font-weight: 600;
+  color: #fcfcfc;
+  margin: 0 5px;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
+.generatorInputPane .addCaseButton, .generatorInputPane .generateTrigger {
+  color: #fcfcfc;
+  background: #3a3a3a85;
+  width: max-content;
+  padding: 8px 10px;
+  border-radius: 5px;
+  border: 1px solid #4a4a4a30;
+  font-weight: 600;
+  margin: 0 15px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.generatorInputPane .addCaseButton:active, .generatorInputPane .generateTrigger:active {
+  opacity: 0.75;
+  background-color: #3a3a3a;
+}
+
+.generatorInputPane .inputPaneBody, .outputPaneBody {
+  /* background-color: #111; */
+  border: 1px solid #1a1a1a; 
+  flex-grow: 1;
+  margin: 15px 10px;
+  margin-top: 5px;
+  border-radius: 10px;
+  box-shadow: inset 1px 3px 5px rgba(0, 0, 0, 0.160);
+  padding: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.outputPaneBody {
+  background: transparent;
+  color: #fcfcfc;
+  outline: none;
+  font-size: large;
+  resize: none;
+}
+
+.generatorInputPane .generateTrigger {
+  padding: 8px 10px;
+  margin-bottom: 5px;
+  width: unset;
+}
