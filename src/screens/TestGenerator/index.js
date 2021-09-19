@@ -12,11 +12,12 @@ export default class TestGenerator extends Component {
   state = {
     functionName: "",
     description: "",
-    defaultReturn: "", // [input, string]
+    defaultReturn: "",
     caseList: [],
     generatedCases: "",
     showAddCaseModal: false,
-    modalKey: "addCase"
+    modalKey: "addCase",
+    outputKey: "output"
   }
 
   preGenValidator = () => {
@@ -24,6 +25,11 @@ export default class TestGenerator extends Component {
 
     if (!functionName) {
       toast("Please provide a function name.")
+      return false;
+    }
+
+    if (functionName.split(" ").length > 1) {
+      toast("Function name can not include spaces.");
       return false;
     }
 
@@ -51,7 +57,7 @@ export default class TestGenerator extends Component {
 
     result += `});`
 
-    this.setState({ generatedCases: result });
+    this.setState({ generatedCases: result, outputKey: this.generateRandomKey() });
   }
 
   generateSingleTestCase = (functionName, input, expectation, type) => {
@@ -78,8 +84,10 @@ export default class TestGenerator extends Component {
 
   showCaseModal = () => this.setState({ showAddCaseModal: true });
 
+  generateRandomKey = () => (Math.random().toString(36).replace(/[^a-z]+/g, ''));
+
   closeModal = () => {
-    this.setState({ showAddCaseModal: false, modalKey: Math.random().toString(36).replace(/[^a-z]+/g, '') });
+    this.setState({ showAddCaseModal: false, modalKey: this.generateRandomKey() });
   }
 
   renderCasesModal = () => (<Modal
@@ -93,7 +101,7 @@ export default class TestGenerator extends Component {
   inputHandler = (e) => this.setState({ [e.target.name]: e.target.value });
 
   render = () => {
-    const { caseList, functionName, description, defaultReturn, generatedCases } = this.state;
+    const { outputKey, caseList, functionName, description, defaultReturn, generatedCases } = this.state;
     // input | output
     return (<div className="testGeneratorView">
       <h1>Unit Test Generator</h1>
@@ -115,7 +123,7 @@ export default class TestGenerator extends Component {
               values={{
                 functionName, description, defaultReturn
               }} />
-            {generatedCases && <OutputPane generatedCases={generatedCases} />}
+            {generatedCases && <OutputPane key={outputKey} generatedCases={generatedCases} />}
         </div>
       </div>
     </div>)
