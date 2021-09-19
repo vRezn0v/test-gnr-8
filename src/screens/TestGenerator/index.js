@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import Modal from 'react-awesome-modal';
+import toast, { Toaster } from "react-hot-toast";
+
 import InputPane from "./Components/InputPane";
 import OutputPane from "./Components/OutputPane";
 import './index.css';
@@ -9,7 +12,8 @@ export default class TestGenerator extends Component {
     expectations: [],
     defaultFailOutputType: "", // [input, string]
     generatedText: "",
-    testUtility: "chai" // probably an case of YAGNI
+    // testUtility: "chai" // probably an case of YAGNI
+    showAddCaseModal: false
   }
 
   generateTests = () => {
@@ -18,7 +22,26 @@ export default class TestGenerator extends Component {
         // assert.equal([functionName]([input]), [output])
   }
 
+  generateSingleTestCase = () => {
+    
+  }
+
+  addTestCase = (payload) => {
+    const { expectations = [] } = this.state;
+
+    const { expectedOutput, input, caseType } = payload;
+
+    const testCase = this.generateSingleTestCase(input, expectedOutput, caseType);
+
+    this.setState({ expectations: [...expectations, testCase], showAddCaseModal: false }, () => {
+      toast("Test Case Added Successfully");
+    });
+  }
+
   // ui should have functionality for copying generated cases
+  renderCasesModal = () => (<Modal visible={this.state.showAddCaseModal}>
+    
+  </Modal>)
 
   render = () => {
     // input | output
@@ -38,6 +61,7 @@ export default class TestGenerator extends Component {
             {/* <div className="generatorOutputPane">
               
             </div> */}
+            {this.renderCasesModal()}
         </div>
       </div>
     </div>)
