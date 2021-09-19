@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Modal from 'react-awesome-modal';
 import toast from "react-hot-toast";
+import { assertionTypeEnum, typeToFunctionEnum } from "../../utils/enums";
 import AddTestCase from "./Components/AddTestCase";
 
 import InputPane from "./Components/InputPane";
@@ -13,7 +14,7 @@ export default class TestGenerator extends Component {
     description: "",
     defaultReturn: "", // [input, string]
     caseList: [],
-    generatedText: "",
+    generatedCases: "",
     showAddCaseModal: false,
     modalKey: "addCase"
   }
@@ -38,13 +39,25 @@ export default class TestGenerator extends Component {
     if (!this.preGenValidator()) return;
 
     const { functionName, description, caseList } = this.state;
-    // describe [functionName] - Description OR Test
-      // it should return [expectation] for [input] as input
-        // assert.[type]([functionName]([input]), [output])
+
+    const functionDescription = description ? `- ${description}` : ``;
+
+    let result = `describe("${functionName} ${functionDescription}", () => {\n`
+    
+    for (let entry of caseList) {
+      const { input, expectation, type } = entry;
+      result += this.generateSingleTestCase(functionName, input, expectation, type);
+    }
+
+    result += `});`
+
+    this.setState({ generatedCases: result });
   }
 
   generateSingleTestCase = (functionName, input, expectation, type) => {
-    
+    return `\tit("${assertionTypeEnum[type]} [${expectation}] for [${input}] as input.", () => {\n
+    \t\tassert.${typeToFunctionEnum[type]}(${functionName}(${input}), ${expectation});
+    });\n`;
   }
 
   addTestCase = (payload) => {
@@ -80,7 +93,7 @@ export default class TestGenerator extends Component {
   inputHandler = (e) => this.setState({ [e.target.name]: e.target.value });
 
   render = () => {
-    const { caseList, functionName, description, defaultReturn, generatedText } = this.state;
+    const { caseList, functionName, description, defaultReturn, generatedCases } = this.state;
     // input | output
     return (<div className="testGeneratorView">
       <h1>Unit Test Generator</h1>
@@ -102,7 +115,7 @@ export default class TestGenerator extends Component {
               values={{
                 functionName, description, defaultReturn
               }} />
-            {generatedText && <OutputPane />}
+            {generatedCases && <OutputPane generatedCases={generatedCases} />}
         </div>
       </div>
     </div>)
