@@ -10,13 +10,34 @@ import './index.css';
 export default class TestGenerator extends Component {
   state = {
     functionName: "",
+    description: "",
+    defaultReturn: "", // [input, string]
     caseList: [],
-    defaultFailOutputType: "", // [input, string]
     generatedText: "",
     showAddCaseModal: false,
+    modalKey: "addCase"
+  }
+
+  preGenValidator = () => {
+    const { functionName, caseList } = this.state;
+
+    if (!functionName) {
+      toast("Please provide a function name.")
+      return false;
+    }
+
+    if (caseList.length === 0) {
+      toast("Please add at least one test case.")
+      return false;
+    }
+
+    return true; 
   }
 
   generateTests = () => {
+    if (!this.preGenValidator()) return;
+
+    const { functionName, description, caseList } = this.state;
     // describe [functionName] - Description OR Test
       // it should return [expectation] for [input] as input
         // assert.[type]([functionName]([input]), [output])
@@ -27,9 +48,17 @@ export default class TestGenerator extends Component {
   }
 
   addTestCase = (payload) => {
-    const { caseList = [] } = this.state;
+    const { caseList = [], defaultReturn } = this.state;
 
-    this.setState({ caseList: [...caseList, payload], showAddCaseModal: false }, () => {
+    let testCase = {...payload};
+    
+    if (!payload.input) return toast("Please provide an Input value.");
+
+    if (!testCase.expectation && defaultReturn) testCase.expectation = defaultReturn;
+
+
+    this.setState({ caseList: [...caseList, testCase] }, () => {
+      this.closeModal();
       toast("Test Case Added Successfully");
     });
   }
@@ -37,19 +66,21 @@ export default class TestGenerator extends Component {
   showCaseModal = () => this.setState({ showAddCaseModal: true });
 
   closeModal = () => {
-    this.setState({ showAddCaseModal: false });
+    this.setState({ showAddCaseModal: false, modalKey: Math.random().toString(36).replace(/[^a-z]+/g, '') });
   }
 
   renderCasesModal = () => (<Modal
       visible={this.state.showAddCaseModal}
       width={"50%"}
-      height={"60%"}
+      height={"25%"}
       onClickAway={this.closeModal}>
-    <AddTestCase addTestCase={this.addTestCase} closeModal={this.closeModal} />
+    <AddTestCase key={this.state.modalKey} addTestCase={this.addTestCase} closeModal={this.closeModal} />
   </Modal>)
 
+  inputHandler = (e) => this.setState({ [e.target.name]: e.target.value });
+
   render = () => {
-    const { caseList } = this.state;
+    const { caseList, functionName, description, defaultReturn, generatedText } = this.state;
     // input | output
     return (<div className="testGeneratorView">
       <h1>Unit Test Generator</h1>
@@ -65,8 +96,13 @@ export default class TestGenerator extends Component {
         <div className="generatorWorkspace">
             <InputPane
               showCaseModal={this.showCaseModal}
-              caseList={caseList} />
-            <OutputPane />
+              inputHandler={this.inputHandler}
+              caseList={caseList}
+              generateTests={this.generateTests}
+              values={{
+                functionName, description, defaultReturn
+              }} />
+            {generatedText && <OutputPane />}
         </div>
       </div>
     </div>)

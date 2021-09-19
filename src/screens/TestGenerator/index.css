@@ -145,3 +145,26 @@ select.textInput option {
   box-shadow: 2px 3px 10px #1a1a1a;
   margin-right: 0;
 }
+
+.caseInfoCard {
+  display: flex;
+  flex-flow: column;
+  border-radius: 4px;
+  padding: 15px;
+  box-shadow: 2px 3px 10px #090909;
+  width: 90%;
+  margin: 10px 0;
+}
+
+.caseInfoCard > div {
+  margin: 2px 0;
+}
+
+.caseInfoCard .cardRow {
+  display: flex;
+  flex-flow: column;
+}
+
+.caseInfoCard .cardRowLabel {
+  font-weight: 600;
+}

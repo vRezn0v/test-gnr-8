@@ -15,12 +15,6 @@ export default class AddTestCase extends Component {
     return <div className="addCaseModal">
       <div className="addCaseModalHeader">
         <h3 className="modalHeading">Add Test Case</h3>
-        <div className="spacer" />
-        <span
-          className="closeButton"
-          onClick={this.props.closeModal}>
-          &times;
-        </span>
       </div>
       <div className="addCaseModalBody">
         <input name="input"
