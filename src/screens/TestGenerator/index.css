@@ -41,7 +41,7 @@
   font-weight: 600;
 }
 
-.generatorInputPane .inputPaneHeader .textInput {
+.textInput {
   resize: none;
   outline: none;
   padding: 10px;
@@ -59,7 +59,7 @@
   flex-grow: 1;
 }
 
-.generatorInputPane .addCaseButton, .generatorInputPane .generateTrigger {
+.generatorInputPane .addCaseButton, .generatorInputPane .generateTrigger, button {
   color: #fcfcfc;
   background: #3a3a3a85;
   width: max-content;
@@ -72,7 +72,7 @@
   cursor: pointer;
 }
 
-.generatorInputPane .addCaseButton:active, .generatorInputPane .generateTrigger:active {
+.generatorInputPane .addCaseButton:active, .generatorInputPane .generateTrigger:active, button:active {
   opacity: 0.75;
   background-color: #3a3a3a;
 }
@@ -102,4 +102,46 @@
   padding: 8px 10px;
   margin-bottom: 5px;
   width: unset;
+}
+
+.addCaseModal {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: #3a3a3a;
+  position: absolute;
+  top: 0;
+  border-radius: 4px;
+  padding: 20px;
+  padding-top: 0;
+}
+
+.addCaseModalHeader {
+  padding: 0;
+  margin: 0;
+}
+
+.modalHeading {
+  font-size: x-large;
+}
+
+select.textInput option {
+  background: #3a3a3a!important;
+}
+
+.addCaseModalFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.addCaseModalFooter .addCaseButton {
+  background: #fcfcfc;
+  color: #3a3a3a;
+  margin-right: 0;
+}
+
+.addCaseModalFooter .cancelButton {
+  box-shadow: 2px 3px 10px #1a1a1a;
+  margin-right: 0;
 }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Modal from 'react-awesome-modal';
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
+import AddTestCase from "./Components/AddTestCase";
 
 import InputPane from "./Components/InputPane";
 import OutputPane from "./Components/OutputPane";
@@ -9,44 +10,50 @@ import './index.css';
 export default class TestGenerator extends Component {
   state = {
     functionName: "",
-    expectations: [],
+    caseList: [],
     defaultFailOutputType: "", // [input, string]
     generatedText: "",
-    // testUtility: "chai" // probably an case of YAGNI
-    showAddCaseModal: false
+    showAddCaseModal: false,
   }
 
   generateTests = () => {
-    // [functionName] - Description OR Test
-      // should return [expectation] for [input] as input
-        // assert.equal([functionName]([input]), [output])
+    // describe [functionName] - Description OR Test
+      // it should return [expectation] for [input] as input
+        // assert.[type]([functionName]([input]), [output])
   }
 
-  generateSingleTestCase = () => {
+  generateSingleTestCase = (functionName, input, expectation, type) => {
     
   }
 
   addTestCase = (payload) => {
-    const { expectations = [] } = this.state;
+    const { caseList = [] } = this.state;
 
-    const { expectedOutput, input, caseType } = payload;
-
-    const testCase = this.generateSingleTestCase(input, expectedOutput, caseType);
-
-    this.setState({ expectations: [...expectations, testCase], showAddCaseModal: false }, () => {
+    this.setState({ caseList: [...caseList, payload], showAddCaseModal: false }, () => {
       toast("Test Case Added Successfully");
     });
   }
 
-  // ui should have functionality for copying generated cases
-  renderCasesModal = () => (<Modal visible={this.state.showAddCaseModal}>
-    
+  showCaseModal = () => this.setState({ showAddCaseModal: true });
+
+  closeModal = () => {
+    this.setState({ showAddCaseModal: false });
+  }
+
+  renderCasesModal = () => (<Modal
+      visible={this.state.showAddCaseModal}
+      width={"50%"}
+      height={"60%"}
+      onClickAway={this.closeModal}>
+    <AddTestCase addTestCase={this.addTestCase} closeModal={this.closeModal} />
   </Modal>)
 
   render = () => {
+    const { caseList } = this.state;
     // input | output
     return (<div className="testGeneratorView">
       <h1>Unit Test Generator</h1>
+      {this.renderCasesModal()}
       <div className="testGeneratorBody">
         <div className="generatorDescription">
           Hello there :)<br/>
@@ -56,12 +63,10 @@ export default class TestGenerator extends Component {
           You can contribute to the development anytime here [put source code link here])
         </div>
         <div className="generatorWorkspace">
-            <InputPane />
+            <InputPane
+              showCaseModal={this.showCaseModal}
+              caseList={caseList} />
             <OutputPane />
-            {/* <div className="generatorOutputPane">
-              
-            </div> */}
-            {this.renderCasesModal()}
         </div>
       </div>
     </div>)

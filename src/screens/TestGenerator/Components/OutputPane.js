@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import toast from "react-hot-toast";
 
 export default class OutputPane extends Component {
   state = {
@@ -18,6 +19,7 @@ export default class OutputPane extends Component {
   copyToClipboard = () => {
     const { generatedCases } = this.state;
     navigator.clipboard.writeText(generatedCases);
+    toast("Test Cases Copied to Clipboard");
   }
 
   render = () => {
