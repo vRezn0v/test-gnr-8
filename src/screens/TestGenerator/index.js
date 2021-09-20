@@ -110,7 +110,7 @@ export default class TestGenerator extends Component {
         <div className="generatorDescription">
           Hello there :)<br/>
           This is a Simple Unit Test Generating Utility.<br />
-          You can contribute to the development anytime here [ <a className="sourceLink" href="https://github.com/vRezn0v/test-gnr-8">Github</a> ]
+          You can contribute to the development anytime here [ <a rel="noreferrer" className="sourceLink" target="_blank" href="https://github.com/vRezn0v/test-gnr-8">Github</a> ]
         </div>
         <div className="generatorWorkspace">
             <InputPane
