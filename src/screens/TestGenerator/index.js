@@ -61,7 +61,7 @@ export default class TestGenerator extends Component {
   }
 
   generateSingleTestCase = (functionName, input, expectation, type) => {
-    return `\tit("${assertionTypeEnum[type]} [${expectation}] for [${input}] as input.", () => {\n
+    return `\tit("${assertionTypeEnum[type]} [${expectation}] for [${input}] as input.", () => {
     \t\tassert.${typeToFunctionEnum[type]}(${functionName}(${input}), ${expectation});
     });\n`;
   }
@@ -109,10 +109,8 @@ export default class TestGenerator extends Component {
       <div className="testGeneratorBody">
         <div className="generatorDescription">
           Hello there :)<br/>
-          Just generate away, hope it saves you some time...<br/>
-          (Please forgive us if there are any issues in wording of generated cases,
-          We use a really primitive generation logic (string literals),<br />
-          You can contribute to the development anytime here [put source code link here])
+          This is a Simple Unit Test Generating Utility.<br />
+          You can contribute to the development anytime here [ <a className="sourceLink" href="https://github.com/vRezn0v/test-gnr-8">Github</a> ]
         </div>
         <div className="generatorWorkspace">
             <InputPane

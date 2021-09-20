@@ -27,7 +27,6 @@ export default class OutputPane extends Component {
 
     return (<div className="generatorOutputPane">
       <div className="outputPaneHeader">
-        <span>{this.props.caseCount || 0} cases generated</span>
         <button className="copyCases" onClick={this.copyToClipboard}>Copy</button>
       </div>
 
